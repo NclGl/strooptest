@@ -29,18 +29,16 @@ def new_round():
     st.session_state.current_color_name = random.choice(list(COLORS.keys()))
     st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
-
 def check_answer(selected_color):
     """Controleer het antwoord van de gebruiker."""
     if selected_color == st.session_state.current_color_code:
         st.session_state.score += 1
 
     # Alleen nieuwe ronde starten als we nog niet klaar zijn
-    if st.session_state.rounds < 10:
+    if st.session_state.rounds <= 10:
         st.session_state.rounds += 1
         if st.session_state.rounds < 10:
             new_round()
-
 
 # Start de eerste ronde
 if st.session_state.rounds == 0:
@@ -74,15 +72,18 @@ if st.session_state.rounds <= 10:
                 on_click=check_answer,
                 args=(color_code,)
             )
+    print(st.session_state.rounds)
 else:
     # Spel is afgelopen
     st.markdown(
         f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
         unsafe_allow_html=True
     )
-    st.write(f"Je uiteindelijke score is: **{st.session_state.score}** van de **{10}**!")
+    st.write(f"Je uiteindelijke score is: **{st.session_state.score}**/**{10}**!")
+    
+    st.session_state.score = 0
+    st.session_state.rounds = 0
+    
     if st.button("Opnieuw spelen"):
         # Reset alle sessiestatusvariabelen
-        st.session_state.score = 0
-        st.session_state.rounds = 0
         new_round()
