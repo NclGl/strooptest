@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-# Kleuren en namen
+# Kleuren en hun namen
 COLORS = {
     "Rood": "red",
     "Groen": "green",
@@ -11,48 +11,77 @@ COLORS = {
     "Oranje": "orange"
 }
 
-# Functie voor nieuwe ronde
-def new_round():
-    color_name = random.choice(list(COLORS.keys()))
-    color_code = random.choice(list(COLORS.values()))
-    return color_name, color_code
+# App-instellingen
+st.set_page_config(page_title="Strooptest", layout="centered")
 
-# Streamlit GUI
-st.title("Strooptest")
-st.write("Kies de kleur waarin het woord geschreven is, niet wat het woord zegt!")
-
-# Initialiseer sessiestatus
+# Variabelen initialiseren
+if "score" not in st.session_state:
+    st.session_state.score = 0
 if "rounds" not in st.session_state:
     st.session_state.rounds = 0
-    st.session_state.score = 0
-    st.session_state.color_name, st.session_state.color_code = new_round()
+if "current_color_name" not in st.session_state:
+    st.session_state.current_color_name = None
+if "current_color_code" not in st.session_state:
+    st.session_state.current_color_code = None
+max_rounds = 10
 
-# Check of het spel klaar is
-if st.session_state.rounds < 10:
-    # Toon kleur en tekst
+# Functie voor een nieuwe ronde
+def new_round():
+    if st.session_state.rounds >= max_rounds:
+        return
+    st.session_state.rounds += 1
+    st.session_state.current_color_name = random.choice(list(COLORS.keys()))
+    st.session_state.current_color_code = random.choice(list(COLORS.values()))
+
+# Functie om antwoord te controleren
+def check_answer(selected_color):
+    if selected_color == st.session_state.current_color_code:
+        st.session_state.score += 1
+    new_round()
+
+# Start nieuwe ronde als nodig
+if st.session_state.rounds == 0:
+    new_round()
+
+# Interface
+st.title("Strooptest")
+st.write(
+    "Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!"
+)
+st.write(f"Ronde {st.session_state.rounds} van {max_rounds}")
+
+# Kleurnaam weergeven
+if st.session_state.rounds <= max_rounds:
     st.markdown(
-        f"<h1 style='color:{st.session_state.color_code};'>{st.session_state.color_name}</h1>",
-        unsafe_allow_html=True,
+        f"<h1 style='text-align: center; color: {st.session_state.current_color_code};'>"
+        f"{st.session_state.current_color_name}</h1>",
+        unsafe_allow_html=True
     )
 
-    # Gebruik een vaste container voor knoppen
-    button_container = st.container()
+# Kleurenknoppen
+if st.session_state.rounds <= max_rounds:
+    col1, col2, col3 = st.columns(3)
+    cols = [col1, col2, col3]
+    buttons = list(COLORS.items())
+    random.shuffle(buttons)
 
-    # Maak knoppen in een vaste layout
-    cols = button_container.columns(len(COLORS))  # Eén kolom per kleur
-    for idx, (name, code) in enumerate(COLORS.items()):
-        with cols[idx]:
-            if st.button(name, key=f"button_{name}"):
-                # Controleer of de gekozen kleur correct is
-                if code == st.session_state.color_code:
-                    st.session_state.score += 1
+    for i, (color_name, color_code) in enumerate(buttons):
+        with cols[i % 3]:
+            st.button(
+                color_name,
+                key=color_code,
+                on_click=check_answer,
+                args=(color_code,)
+            )
 
-                # Nieuwe ronde starten
-                st.session_state.rounds += 1
-                st.session_state.color_name, st.session_state.color_code = new_round()
-
-                # Stop verdere uitvoering om opnieuw te renderen
-                st.stop()
-else:
-    # Toon de eindscore
-    st.write(f"Je score is: {st.session_state.score} van de 10!")
+# Einde spel
+if st.session_state.rounds > max_rounds:
+    st.markdown(
+        f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
+        unsafe_allow_html=True
+    )
+    st.write(f"Je score is: {st.session_state.score} van de {max_rounds}!")
+    if st.button("Opnieuw spelen"):
+        st.session_state.score = 0
+        st.session_state.rounds = 0
+        new_round()
