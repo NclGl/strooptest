@@ -46,8 +46,8 @@ if st.session_state.rounds < 10:
             st.session_state.rounds += 1
             st.session_state.color_name, st.session_state.color_code = new_round()
             
-            # Pagina "vernieuwen" door query parameters in te stellen
-            st.query_params(rounds=st.session_state.rounds)
+            # Clear the Streamlit cache for reactive updates
+            st.experimental_rerun()
 else:
     # Toon de eindscore
     st.write(f"Je score is: {st.session_state.score} van de 10!")
