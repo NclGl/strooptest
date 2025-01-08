@@ -25,6 +25,7 @@ if "current_color_code" not in st.session_state:
     st.session_state.current_color_code = None
 max_rounds = 10
 
+
 # Functie voor een nieuwe ronde
 def new_round():
     if st.session_state.rounds < max_rounds:
@@ -32,12 +33,15 @@ def new_round():
         st.session_state.current_color_name = random.choice(list(COLORS.keys()))
         st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
+
 # Functie om antwoord te controleren
 def check_answer(selected_color):
     if st.session_state.rounds <= max_rounds:
         if selected_color == st.session_state.current_color_code:
             st.session_state.score += 1
-        new_round()
+        if st.session_state.rounds < max_rounds:
+            new_round()
+
 
 # Start nieuwe ronde als nodig
 if st.session_state.rounds == 0:
@@ -45,12 +49,9 @@ if st.session_state.rounds == 0:
 
 # Interface
 st.title("Strooptest")
-st.write(
-    "Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!"
-)
-st.write(f"Ronde {min(st.session_state.rounds, max_rounds)} van {max_rounds}")
+st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
-# Controleren of het spel voorbij is
+# Controle of het spel voorbij is
 if st.session_state.rounds > max_rounds:
     st.markdown(
         f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
@@ -62,6 +63,9 @@ if st.session_state.rounds > max_rounds:
         st.session_state.rounds = 0
         new_round()
 else:
+    # Ronde informatie weergeven
+    st.write(f"Ronde {st.session_state.rounds} van {max_rounds}")
+
     # Kleurnaam weergeven
     st.markdown(
         f"<h1 style='text-align: center; color: {st.session_state.current_color_code};'>"
@@ -79,7 +83,7 @@ else:
         with cols[i % 3]:
             st.button(
                 color_name,
-                key=color_code,
+                key=f"{color_code}_{st.session_state.rounds}",  # Unieke sleutel per ronde
                 on_click=check_answer,
                 args=(color_code,)
             )
