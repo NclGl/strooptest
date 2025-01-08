@@ -14,7 +14,7 @@ COLORS = {
 # App-instellingen
 st.set_page_config(page_title="Strooptest", layout="centered")
 
-# Variabelen initialiseren
+# Initialiseer sessiestatus
 if "score" not in st.session_state:
     st.session_state.score = 0
 if "rounds" not in st.session_state:
@@ -23,50 +23,40 @@ if "current_color_name" not in st.session_state:
     st.session_state.current_color_name = None
 if "current_color_code" not in st.session_state:
     st.session_state.current_color_code = None
-max_rounds = 10
+
+MAX_ROUNDS = 10
 
 
-# Functie voor een nieuwe ronde
 def new_round():
-    if st.session_state.rounds < max_rounds:
-        st.session_state.rounds += 1
-        st.session_state.current_color_name = random.choice(list(COLORS.keys()))
-        st.session_state.current_color_code = random.choice(list(COLORS.values()))
+    """Start een nieuwe ronde."""
+    st.session_state.current_color_name = random.choice(list(COLORS.keys()))
+    st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
 
-# Functie om antwoord te controleren
 def check_answer(selected_color):
-    if st.session_state.rounds <= max_rounds:
-        if selected_color == st.session_state.current_color_code:
-            st.session_state.score += 1
-        if st.session_state.rounds < max_rounds:
+    """Controleer het antwoord van de gebruiker."""
+    if selected_color == st.session_state.current_color_code:
+        st.session_state.score += 1
+
+    # Alleen nieuwe ronde starten als we nog niet klaar zijn
+    if st.session_state.rounds < MAX_ROUNDS:
+        st.session_state.rounds += 1
+        if st.session_state.rounds < MAX_ROUNDS:
             new_round()
 
 
-# Start nieuwe ronde als nodig
+# Start de eerste ronde
 if st.session_state.rounds == 0:
+    st.session_state.rounds += 1
     new_round()
 
 # Interface
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
-# Controle of het spel voorbij is
-if st.session_state.rounds > max_rounds:
-    st.markdown(
-        f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
-        unsafe_allow_html=True
-    )
-    st.write(f"Je score is: {st.session_state.score} van de {max_rounds}!")
-    if st.button("Opnieuw spelen"):
-        st.session_state.score = 0
-        st.session_state.rounds = 0
-        new_round()
-else:
-    # Ronde informatie weergeven
-    st.write(f"Ronde {st.session_state.rounds} van {max_rounds}")
-
-    # Kleurnaam weergeven
+if st.session_state.rounds <= MAX_ROUNDS:
+    # Toon huidige ronde en kleur
+    st.write(f"Ronde {st.session_state.rounds} van {MAX_ROUNDS}")
     st.markdown(
         f"<h1 style='text-align: center; color: {st.session_state.current_color_code};'>"
         f"{st.session_state.current_color_name}</h1>",
@@ -87,3 +77,15 @@ else:
                 on_click=check_answer,
                 args=(color_code,)
             )
+else:
+    # Spel is afgelopen
+    st.markdown(
+        f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
+        unsafe_allow_html=True
+    )
+    st.write(f"Je uiteindelijke score is: **{st.session_state.score}** van de **{MAX_ROUNDS}**!")
+    if st.button("Opnieuw spelen"):
+        # Reset alle sessiestatusvariabelen
+        st.session_state.score = 0
+        st.session_state.rounds = 0
+        new_round()
