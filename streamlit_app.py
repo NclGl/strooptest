@@ -11,11 +11,6 @@ COLORS = {
     "Oranje": "orange"
 }
 
-# Huidige score
-score = 0
-rounds = 0
-max_rounds = 10
-
 # Functie voor nieuwe ronde
 def new_round():
     color_name = random.choice(list(COLORS.keys()))
@@ -26,22 +21,33 @@ def new_round():
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord geschreven is, niet wat het woord zegt!")
 
+# Initialiseer sessiestatus
 if "rounds" not in st.session_state:
     st.session_state.rounds = 0
     st.session_state.score = 0
     st.session_state.color_name, st.session_state.color_code = new_round()
 
-if st.session_state.rounds < max_rounds:
+# Check of het spel klaar is
+if st.session_state.rounds < 10:
+    # Toon kleur en tekst
     st.markdown(
         f"<h1 style='color:{st.session_state.color_code};'>{st.session_state.color_name}</h1>",
         unsafe_allow_html=True,
     )
+
+    # Maak knoppen voor elke kleur
     for name, code in COLORS.items():
         if st.button(name):
+            # Controleer of de gekozen kleur correct is
             if code == st.session_state.color_code:
                 st.session_state.score += 1
+            
+            # Nieuwe ronde starten
             st.session_state.rounds += 1
             st.session_state.color_name, st.session_state.color_code = new_round()
-            st.experimental_rerun()
+            
+            # Pagina "vernieuwen" door query parameters in te stellen
+            st.experimental_set_query_params(rounds=st.session_state.rounds)
 else:
-    st.write(f"Je score is: {st.session_state.score} van de {max_rounds}!")
+    # Toon de eindscore
+    st.write(f"Je score is: {st.session_state.score} van de 10!")
