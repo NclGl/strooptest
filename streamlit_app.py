@@ -47,7 +47,7 @@ if st.session_state.rounds < 10:
             st.session_state.color_name, st.session_state.color_code = new_round()
             
             # Pagina "vernieuwen" door query parameters in te stellen
-            st.experimental_set_query_params(rounds=st.session_state.rounds)
+            st.query_params(rounds=st.session_state.rounds)
 else:
     # Toon de eindscore
     st.write(f"Je score is: {st.session_state.score} van de 10!")
