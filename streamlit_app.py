@@ -26,7 +26,7 @@ if "current_color_code" not in st.session_state:
 
 def new_round():
     """Start een nieuwe ronde."""
-    st.session_state.current_color_name = list(COLORS.keys())
+    st.session_state.current_color_name = random.choice(list(COLORS.keys()))
     st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
 def check_answer(selected_color):
@@ -62,7 +62,6 @@ if st.session_state.rounds <= 10:
     col1, col2, col3 = st.columns(3)
     cols = [col1, col2, col3]
     buttons = list(COLORS.items())
-    random.shuffle(buttons)
 
     for i, (color_name, color_code) in enumerate(buttons):
         with cols[i % 3]:
