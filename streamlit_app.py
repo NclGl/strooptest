@@ -59,10 +59,15 @@ if st.session_state.rounds <= 10:
     )
 
     # Kleurenknoppen
-    col1, col2, col3 = st.columns(3)
+    col0, col1, col2, col3, col4 = st.columns(5)
     cols = [col1, col2, col3]
     buttons = list(COLORS.items())
 
+    with col0:
+        pass
+    with col4:
+        pass
+    
     for i, (color_name, color_code) in enumerate(buttons):
         with cols[i % 3]:
             st.button(
