@@ -49,8 +49,6 @@ if st.session_state.rounds == 0:
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
-st.write(f"Screen width is {st.screen_width}")
-
 if st.session_state.rounds <= 10:
     # Toon huidige ronde en kleur
     st.write(f"Ronde {st.session_state.rounds} van {10}")
