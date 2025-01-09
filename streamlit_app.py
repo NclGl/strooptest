@@ -49,6 +49,8 @@ if st.session_state.rounds == 0:
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
+st.write(f"Screen width is {streamlit_js_eval(js_expressions='screen.width', key = 'SCR')}")
+
 if st.session_state.rounds <= 10:
     # Toon huidige ronde en kleur
     st.write(f"Ronde {st.session_state.rounds} van {10}")
