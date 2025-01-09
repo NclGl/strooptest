@@ -39,7 +39,7 @@ def check_answer(selected_color):
     # Alleen nieuwe ronde starten als we nog niet klaar zijn
     if st.session_state.rounds <= MAX_ROUNDS:
         st.session_state.rounds += 1
-        if st.session_state.rounds < MAX_ROUNDS:
+        if st.session_state.rounds <= MAX_ROUNDS:
             new_round()
 
 # Start de eerste ronde
