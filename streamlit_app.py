@@ -11,6 +11,8 @@ COLORS = {
     "Oranje": "orange"
 }
 
+MAX_ROUNDS = 20
+
 # App-instellingen
 st.set_page_config(page_title="Strooptest", layout="centered")
 
@@ -35,9 +37,9 @@ def check_answer(selected_color):
         st.session_state.score += 1
 
     # Alleen nieuwe ronde starten als we nog niet klaar zijn
-    if st.session_state.rounds <= 10:
+    if st.session_state.rounds <= MAX_ROUNDS:
         st.session_state.rounds += 1
-        if st.session_state.rounds < 10:
+        if st.session_state.rounds < MAX_ROUNDS:
             new_round()
 
 # Start de eerste ronde
@@ -49,9 +51,9 @@ if st.session_state.rounds == 0:
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
-if st.session_state.rounds <= 10:
+if st.session_state.rounds <= MAX_ROUNDS:
     # Toon huidige ronde en kleur
-    st.write(f"Ronde {st.session_state.rounds} van {10}")
+    st.write(f"Ronde {st.session_state.rounds} van {MAX_ROUNDS}")
     st.markdown(
         f"<h1 style='text-align: center; color: {st.session_state.current_color_code};'>"
         f"{st.session_state.current_color_name}</h1>",
@@ -83,7 +85,7 @@ else:
         f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
         unsafe_allow_html=True
     )
-    st.write(f"Je uiteindelijke score is: **{st.session_state.score}**/**{10}**!")
+    st.write(f"Je uiteindelijke score is: **{st.session_state.score}**/**{MAX_ROUNDS}**!")
     
     st.session_state.score = 0
     st.session_state.rounds = 0
