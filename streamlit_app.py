@@ -26,7 +26,7 @@ if "current_color_code" not in st.session_state:
 
 def new_round():
     """Start een nieuwe ronde."""
-    st.session_state.current_color_name = random.choice(list(COLORS.keys()))
+    st.session_state.current_color_name = list(COLORS.keys())
     st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
 def check_answer(selected_color):
