@@ -1,6 +1,5 @@
 import streamlit as st
 import random
-from streamlit_js_eval import streamlit_js_eval
 
 # Kleuren en hun namen
 COLORS = {
@@ -50,7 +49,7 @@ if st.session_state.rounds == 0:
 st.title("Strooptest")
 st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
 
-st.write(f"Screen width is {streamlit_js_eval(js_expressions='screen.width', key = 'SCR')}")
+st.write(f"Screen width is {st.screen_width}")
 
 if st.session_state.rounds <= 10:
     # Toon huidige ronde en kleur
