@@ -3,12 +3,12 @@ import random
 
 # Kleuren en hun namen
 COLORS = {
-    "Rood": "red",
-    "Groen": "green",
-    "Blauw": "blue",
-    "Geel": "yellow",
-    "Paars": "purple",
-    "Oranje": "orange"
+    "Rouge": "red",
+    "Vert": "green",
+    "Bleu": "blue",
+    "Jaune": "yellow",
+    "Mauve": "purple",
+    "Orange": "orange"
 }
 
 MAX_ROUNDS = 20
