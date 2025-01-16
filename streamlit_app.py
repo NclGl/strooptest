@@ -27,12 +27,12 @@ if "current_color_code" not in st.session_state:
     st.session_state.current_color_code = None
 
 def new_round():
-    """Start een nieuwe ronde."""
+    """Commencer un nouveau tour."""
     st.session_state.current_color_name = random.choice(list(COLORS.keys()))
     st.session_state.current_color_code = random.choice(list(COLORS.values()))
 
 def check_answer(selected_color):
-    """Controleer het antwoord van de gebruiker."""
+    """Vérifier la réponse de l'utilisateur."""
     if selected_color == st.session_state.current_color_code:
         st.session_state.score += 1
 
@@ -49,11 +49,11 @@ if st.session_state.rounds == 0:
 
 # Interface
 st.title("Strooptest")
-st.write("Kies de kleur waarin het woord is geschreven, niet wat het woord zegt!")
+st.write("Choisissez la couleur dans laquelle le mot est écrit, et non ce qu'il dit !")
 
 if st.session_state.rounds <= MAX_ROUNDS:
     # Toon huidige ronde en kleur
-    st.write(f"Ronde {st.session_state.rounds} van {MAX_ROUNDS}")
+    st.write(f"Tour {st.session_state.rounds} sur {MAX_ROUNDS}")
     st.markdown(
         f"<h1 style='text-align: center; color: {st.session_state.current_color_code};'>"
         f"{st.session_state.current_color_name}</h1>",
@@ -82,14 +82,14 @@ if st.session_state.rounds <= MAX_ROUNDS:
 else:
     # Spel is afgelopen
     st.markdown(
-        f"<h2 style='text-align: center;'>Einde van het spel!</h2>",
+        f"<h2 style='text-align: center;'>Fin du jeu !</h2>",
         unsafe_allow_html=True
     )
-    st.write(f"Je uiteindelijke score is: **{st.session_state.score}**/**{MAX_ROUNDS}**!")
+    st.write(f"Votre score final est : **{st.session_state.score}**/**{MAX_ROUNDS}**!")
     
     st.session_state.score = 0
     st.session_state.rounds = 0
     
-    if st.button("Opnieuw spelen"):
+    if st.button("Rejouer"):
         # Reset alle sessiestatusvariabelen
         new_round()
