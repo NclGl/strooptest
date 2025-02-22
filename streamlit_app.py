@@ -11,7 +11,7 @@ COLORS = {
     "Orange": "orange"
 }
 
-MAX_ROUNDS = 20
+MAX_ROUNDS = 500
 
 # App-instellingen
 st.set_page_config(page_title="Strooptest", layout="centered")
