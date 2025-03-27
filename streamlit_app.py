@@ -65,17 +65,17 @@ if st.session_state.rounds <= MAX_ROUNDS:
     )
 
     # Kleurenknoppen
-    col0, col1, col2, col3, col4 = st.columns(5)
-    cols = [col1, col2, col3]
+    col0, col1, col2, col3, col4, col5, col6 = st.columns(7)
+    cols = [col1, col2, col3, col4, col5]
     buttons = list(COLORS.items())
 
     with col0:
         pass
-    with col4:
+    with col6:
         pass
     
     for i, (color_name, color_code) in enumerate(buttons):
-        with cols[i % 3]:
+        with cols[i % 5]:
             st.button(
                 color_name,
                 key=f"{color_code}_{st.session_state.rounds}",  # Unieke sleutel per ronde
