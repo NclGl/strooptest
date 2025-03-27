@@ -80,7 +80,8 @@ if st.session_state.rounds <= MAX_ROUNDS:
                 color_name,
                 key=f"{color_code}_{st.session_state.rounds}",  # Unieke sleutel per ronde
                 on_click=check_answer,
-                args=(color_code,)
+                args=(color_code,),
+                use_container_width=True
             )
     print(st.session_state.rounds)
 else:
