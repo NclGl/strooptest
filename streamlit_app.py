@@ -11,8 +11,8 @@ COLORS = {
     "Orange": "orange",
     "Magenta": "magenta",
     "Cyan": "cyan",
-    "Violet": "purple",
-    "Turquoise": "teal"
+    "Olive": "#808000",
+    "Turquoise": "#008080"
 }
 
 MAX_ROUNDS = 75
