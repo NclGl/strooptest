@@ -8,7 +8,11 @@ COLORS = {
     "Bleu": "blue",
     "Jaune": "yellow",
     "Mauve": "purple",
-    "Orange": "orange"
+    "Orange": "orange",
+    "Magenta": "magenta",
+    "Cyan": "cyan",
+    "Violet": "purple",
+    "Turquoise": "teal"
 }
 
 MAX_ROUNDS = 75
