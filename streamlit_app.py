@@ -1,5 +1,5 @@
 import streamlit as st
- import random
+import random
  
  # Kleuren en hun namen
  COLORS = {
